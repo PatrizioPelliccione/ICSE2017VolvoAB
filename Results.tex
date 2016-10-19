@@ -1,0 +1,100 @@
+\section{Evaluation}\label{sec:evaluation}
+
+In the evaluation stage, black-box testing is performed with ARUnit test tool. The code of the software components is also in ARUnit, which is based on Eclipse. The steps of robustness evaluation are: %\\
+
+\begin{enumerate}
+ \item {Perform robustness testing in ARUnit of the original version of the software component.}
+ \item {Input a list of valid and invalid data, and calculate the percentage of test cases that are successful. %output data is the result of successful running and also in the expected range. 
+ This percentage is stored in the D1 variable.} %Keep this percentage as D1. }
+ \item {In Eclipse, replace the original version of the software component with the software component which has been enhanced with Design by Contract.}
+ \item {Input the same list of valid and invalid data of step 2, and calculate the percentage of test cases that are successful. %output data is the result of successful running and also in the expected range. 
+  This percentage is stored in the D2 variable.} %what percent of the output data is the result of successful running and also in the expected range. Keep this percentage as D2.}
+ \item {Compare D1 and D2. If D2 is greater than D1, it means the software component which is enhanced with Design by Contract has better robustness.}
+\end{enumerate}
+
+\subsection{Testing results of the Brake-Pedal-Input-Handler Component}
+
+The testing results for the Brake-Pedal-Input-Handler component are shown in Table~\ref{tab:resultsTestingOriginalComp}. For the original component, it failed 15 times in the 70 test cases.  The modified component failed 0 time in the 70 test cases. The success rates of them are 78.6\% and 100.0\% respectively. Obviously, the modified component has better robustness and can handle more input data successfully. The analysis and evaluation are conducted in Section~\ref{sec:evaluations}.
+
+\begin{table}[htb]
+\centering
+\begin{tabular}{|p{1.5cm}|c|c|c|}\hline
+      & Successful Tests & Total Tests & Success Rates\\ \hline
+Original Component & 55 & 70 & 78.6\% \\ \hline
+Modified Component & 70 & 70 & 100.0\% \\ \hline
+\end{tabular}
+\caption{Results of tests for the Brake-Pedal-Input-Handler Component}
+\label{tab:resultsTestingOriginalComp}
+\vspace{-.6cm}
+\end{table}
+
+\subsection{Testing results of the Brake-Light-Control component}\label{sec:resultsModified}
+
+The testing results for the Brake-Pedal-Input-Handler component %two modified components 
+are shown in Table~\ref{tab:resultsTestingModifiedComp}. The original components failed 9 times in the 30 test cases.  The modified component failed 0 time in the 30 test cases. The success rates of them are 70\% and 100\%, respectively. Obviously, the modified component has better robustness and can handle more input data successfully.
+
+\begin{table}[htb]
+\centering
+\begin{tabular}{|p{1.5cm}|c|c|c|}\hline
+      & Successful Tests & Total Tests & Success Rates\\ \hline
+Original Component & 21 & 30 & 70\% \\ \hline
+Modified Component & 30 & 30 & 100\% \\ \hline
+\end{tabular}
+\caption{Results of tests for the two modified components}
+\label{tab:resultsTestingModifiedComp}
+\vspace{-.6cm}
+\end{table}
+
+\subsection{Evaluation}\label{sec:evaluations}
+
+For the testing results, all input data of the failed test cases are in the ranges of invalid input or erroneous input. The reason of why getting such results is that the original components have incomplete and inaccurate input checks. They do not cover all the possible input data from different ranges. Although these invalid or erroneous input data seldom appear or will be replaced by the next input quickly in the real running in the ECU, they cannot be ignored. 
+
+There are two main reasons that make the modified components get better results. The first one is that all possible input data have been considered by carefully analysing the documented specification when designing this new component. The invalid input data and erroneous input data have been handled in the pre-condition component and do not have the chance to get into the main processing component. The second reason is that the data from the main processing component are checked again in the post-condition component to ensure its correctness. The pre-condition and post-condition components are like two guards that check all the input and output data of the main processing component. 
+
+The prerequisite of setting such pre-condition and post-condition components that can accurately cover all the possible input and output data, is that we need to have complete requirements for the components. 
+According to experts within the company, %Some relevant information from the company can prove 
+the two software components used in this work are representative for the entire set of the existing components for the purpose of studying robustness. It is important to highlight that, when developing AUTOSAR software components in the company, the bottom line for the requirements of the components is that the whole range of every input and output must be specified. And if they are not, someone will revise or update the requirements. It means that almost for every component the requirements specify the ranges of the input and output; this information can be used to help setting accurate pre-conditions and post-conditions for the components, similarly to what we have done in this paper.
+
+For what concerns the design of the components, the components themselves and the collaboration among different components work well in the testing environment. For this design, there are clear and complete input and output checks that are conducted by the pre-condition and post-condition components. The main processing component can also focus on data processing. Moreover, the component code  becomes more readable and easier to modify when necessary. 
+
+As already briefly discussed above, what is different from the real components in the ECUs is that in order to read the checking results more easily, the components in this work directly shows the results in the console. The way of detecting errors is the same. But in the real ECUs, if we detect errors, the component will use other ways to handle these invalid data. For example, in the Brake-Pedal-Input-Handler component, the component will switch to another sensor to get the input if the input from one sensor is invalid. In general the way of handling %How to handle the 
+invalid data depends on the requirements. This is another reason why the well-specified requirements are important. 
+
+%Some strengths and weaknesses of using Design by Contract in AUTOSAR software components have been mentioned in this thesis report more or less. 
+Table~\ref{tab:strenghtsWeaknesses} shows a summary of strengths and weaknesses of using Design by Contract in AUTOSAR software components. 
+
+\begin{table*}[htb]
+\centering
+\begin{tabular}{p{7.5cm} l p{9cm}}
+\hline
+\multicolumn{1}{c}{Strengths} & \multicolumn{2}{c}{Weaknesses  } \\
+[.1ex]
+\cline{1-1}  \cline{3-3} 
+$\bullet$ Better robustness of the components and applications  &  & $\bullet$ Add more components which may also bring errors to the components \\
+[.8ex]
+
+$\bullet$ Increase readability and understandability of the code   &  & $\bullet$ Strict data checks may slow the components and applications down  \\
+[.8ex]
+
+$\bullet$ Convenient to refactor manually coded software components  &  & $\bullet$ Hard to modify the components of which the code is automatically  generated from some models \\
+[-1.6ex]
+
+$\bullet$ Low redundancy &  &          \\
+%[1ex]
+
+\hline
+\end{tabular}
+\caption{Strengths and weaknesses of the Design by Contract approach in AUTOSAR}
+\label{tab:strenghtsWeaknesses}
+\vspace{-.6cm}
+\end{table*}
+
+
+Another thing that needs to be evaluated here is in which situation the Design by Contract approach can be used to improve AUTOSAR software components' robustness. %As known from the DEDICATE framework description \cite{pp}, t
+The code of some components is generated from TargetLink which is a modeling and development tool. Such kind of code is hard to read, import into ARUnit and modify manually. These components that have code automatically generated by TargetLink should follow a different approach. Contracts including pre-conditions and post-conditions should be embedded in code generation instead of trying to modify the code a-posteriori, as done by the approach proposed in this thesis. In the source base, nearly 50\% of the AUTOSAR software components are generated from TargetLink. Thus, at least 50\% of the components, i.e. those that have manually written code, can be easily enhanced with Design by Contract through the use of our approach. % to improve their robustness. 
+As mentioned above our approach might be tuned so to be used in combination with code generation facilities. 
+Finally, new AUTOSAR software components can certainly be designed and implemented with the Design by Contract approach.
+
+For what concerns performance, for the two components we considered %for a few number of simpler and smaller components, 
+performance is acceptable, also considering the gains in robustness. However, we should better investigate how deployment of DbC scales while considering various attributes/properties of components. We should also consider various aspects of performance, such as %Also, we can think of performance from various aspects. I actually suggested Yulai to consider various factors (
+memory footprint, execution time, etc. and perform comparison between components without DbC and components with DbC. This is part of future work. %I am not sure if Yulai has performed such comparisons.

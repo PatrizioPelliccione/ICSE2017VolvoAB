@@ -1,0 +1,42 @@
+\section{Related Works}\label{sec:relatedWorks}
+
+Design by Contract (DbC) was firstly described by Bertrand Meyer~\cite{ii1} and included %in his several articles starting from 1986, which is introduced together with 
+in his Eiffel programming language~\cite{ii}. %Later in 1992, in the article Applying Design by Contract
+The work in~\cite{ii} shows that building software components on the basis of carefully designed contracts might reduce bugs and then improve 
+%, Bertrand Meyer introduced the application of Design by Contract. In this article, he emphasized the significance of 
+software reliability. %, which includes robustness and showed how to reduce bugs by building software components on the basis of carefully designed contracts. He defined the contract as the obligations and the benefits for the client and the supplier. Assertions, which include pre-conditions, post-conditions and invariants, were described by him to express contracts for software. 
+
+In the last two decades DbC started to be popular in several programming languages, either through native support or with third-party solutions. 
+The work in~\cite{Araujo2011} exploits DbC to concurrent programs. The authors extended the Java Modeling Language (JML) with constructs to specify  contracts %for Java programs 
+and to %they present a runtime assertion checker 
+%for 
+verify assertions of concurrent Java programs. 
+%We systematically evaluate the validity of system testing results obtained via runtime assertion checking using actual concurrent and functional faults on a highly concurrent industrial system from the telecommunications domain.
+The same authors apply then the approach to a case study in %a highly concurrent industrial software system from 
+the telecommunications domain to assess the effectiveness of contracts as test oracles in detecting and diagnosing functional faults in concurrent software~\cite{Araujo2014}. The authors conclude showing that DbC can be a valuable tool to improve the economics of software engineering.
+
+%work in~\cite{Araujo2014} applies the approach
+%Using Java as the target programming language, we tackle such challenges by augmenting the Java Modelling Language (JML) and modifying the JML compiler (jmlc) to generate runtime assertion checking code to support DbC in concurrent programs. We applied our solution in a carefully designed case study on a highly concurrent industrial software system from the telecommunications domain to assess the effectiveness of contracts as test oracles in detecting and diagnosing functional faults in concurrent software.
+
+The work in~\cite{ii5} shows %presented 
+how to specify the functionality of software components with the theory and methods of the Design by Contract approach. % in their paper in 2002. By their way of understanding Design by Contract, they concluded
+The conclusion of the author is that the reliability and reusability of components can be enhanced by encapsulating operations 
+%operations are encapsulated 
+ within the components and by managing communications %are made 
+ through the interfaces. %, it will make the components more reliable and reusable. 
+ %Cheon et al.
+ The work in~\cite{ii4} introduces an approach %a method in 2005, 
+ to %model program variables to write and 
+ check DbC assertions without referring to the program states; this makes the assertions more readable and maintainable.
+
+%Benveniste et al.\cite{ii2} wrote one paper in 2011 about contract-based design which is similar to Design by Contract and its uses to address the challenges faced in designing large-scale complex embedded systems. Concepts and the key steps of contract-based design were introduced in this paper by giving three real examples.
+
+%Th\"um et al.
+The work in~\cite{ii3} introduced an approach for integrating DbC with feature-oriented programming. %; the idea is to define contracts for methods and their refinements to increase the reliability. Some case studies were also performed by them to gain and then share the insights.  
+
+The work in~\cite{ContractsSystemsDesign} presents a methodology for contract-based system design. The authors identify also AUTOSAR software components as an interesting direction to be investigated. 
+However, to the best of our knowledge, the use of DbC for AUTOSAR software components is not % the problem we tackle has not been
+satisfactorily addressed in the literature. 
+Our paper contributes exactly in this direction.
+
+%The work of this thesis is based on the ideas and implementations from these related articles and work. As Design by Contract is used for objected-oriented languages in most situations and AUTOSAR SW-Cs are developed by C without any existing third-party tools that support Design by Contract, the author of this thesis needs to explore a new way for applying Design by Contract in AUTOSAR SW-Cs and evaluates the effect of improvement of robustness.
