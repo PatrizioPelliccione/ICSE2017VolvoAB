@@ -27,11 +27,11 @@ robustness of the developed AUTOSAR software components. %they developed.
 %AUTOSAR is mature, but such AUTOSAR software still needs to be improved. Researchers and developers are always willing to develop AUTOSAR software components with good robustness, they have been trying many different design ideas for development. 
 
 In this paper we describe an industrial investigation made within Volvo AB in Gothenburg about using %made within 
-Design by Contract as a means for improving the robustness of AUTOSAR software components. 
+Design by Contract (DbC) as a means for improving the robustness of AUTOSAR software components. 
 %looks like a promising %may be a good design 
 %design idea for AUTOSAR software components. %As anticipated in Section~\ref{sec:background}, i
-In Design by Contract, the relationship between a class and its clients is viewed as a formal agreement in which each party's right and obligations are described~\cite{jj}. In practice, it sets precise conditions to both the input and output of the components. %As the definition of robustness is ``the degree to which a system or component can function correctly in the presence of invalid inputs or stressful environmental conditions''~\cite{cc}. \
-Since the output of one component is often the input of another component, this enables to check that the communication among components is correct. Design by Contract helps both checking the correctness of input and output of one software component, and %. Also, it checks 
+In DbC, the relationship between a class and its clients is viewed as a formal agreement in which each party's right and obligations are described~\cite{jj}. In practice, it sets precise conditions to both the input and output of the components. %As the definition of robustness is ``the degree to which a system or component can function correctly in the presence of invalid inputs or stressful environmental conditions''~\cite{cc}. \
+Since the output of one component is often the input of another component, this enables to check that the communication among components is correct. DbC helps both checking the correctness of input and output of one software component, and %. Also, it checks 
 the preservation of invariants inside the software component. %To achieve a high degree of robustness, Design by Contract is worth a try. The aim of this thesis is to answer the research question:
 %
 %\begin{itemize}
@@ -44,7 +44,7 @@ The proposed approach is implemented and applied to the components of two AUTOSA
 %In line with the %With the design 
 %idea of Design by Contract, conditions for input and output are set for the Brake-Pedal-Input-Handler component in the Brake-By-Wire system and the Brake-Light-Control component in the Brake-Lighting application. %As the Brake-Pedal-Input-Handler component is also used in the Brake-Lighting application, the connection of these two components is also considered and implemented. 
 The output of our approach is a set of components enhanced with contracts. These  components %which are modified with input and output checking, 
-are then tested by black-box testing with ARUnit testing tool. By comparing the test results of the original and modified components, we can conclude saying that Design by Contract greatly increases the robustness of AUTOSAR software components. In the paper we also identify and discuss limitations and weaknesses of the proposed approach.
+are then tested by black-box testing with ARUnit testing tool. By comparing the test results of the original and modified components, we can conclude saying that DbC greatly increases the robustness of AUTOSAR software components. In the paper we also identify and discuss limitations and weaknesses of the proposed approach.
 
 The paper is structured as follows: Section~\ref{sec:background} provides background information that is needed to understand the approach. Section~\ref{sec:approach} presents the approach and Section~\ref{sec:implementation} describes its implementation. The validation of the approach is discussed in Section~\ref{sec:evaluation}. Related works are discussed in Section~\ref{sec:relatedWorks}. The paper concludes with final remarks and future research directions in Section~\ref{sec:conclusions}.
 

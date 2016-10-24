@@ -9,13 +9,13 @@
 This work has been realized in collaboration between the Chalmers University of Technology and Volvo AB. The work has been organized in three iterations, each of them including the following phases: (i) problem identification, (ii) discussion and suggestion, (iii) design and development, (iv) evaluation, and (v) conclusion and report. 
 %work is done with 3 iterations. 
 The first iteration was devoted to the investigation of \texttt{assert()} %was discussed and 
-as the instrument to be used for applying the Design by Contract approach to the original AUTOSAR SW-Cs. In the second iteration, we tried to set independent pre-condition components for every type of inputs. These two attempts were abandoned for their weaknesses as it is described in the following. Finally, in the third iteration we identified the method that we implemented and used. %The method builds new pre-condition, post-condition and invariant components. %presented in Chapter 4 was used and implemented. %Besides the iterations, I have weekly meeting with the supervisors at Chalmers and Volvo for delivering what has done, getting feedback and planning for next work. 
+as the instrument to be used for applying the DbC approach to the original AUTOSAR SW-Cs. In the second iteration, we tried to set independent pre-condition components for every type of inputs. These two attempts were abandoned for their weaknesses as it is described in the following. Finally, in the third iteration we identified the method that we implemented and used. %The method builds new pre-condition, post-condition and invariant components. %presented in Chapter 4 was used and implemented. %Besides the iterations, I have weekly meeting with the supervisors at Chalmers and Volvo for delivering what has done, getting feedback and planning for next work. 
 
 %In this chapter, three attempts of applying Design by Contract to AUTOSAR software components with different methods are described. The first and second attempts are abandoned for the problems and limitations they have. The final attempt which builds new pre-condition, post-condition and invariant components is adopted. The descriptions and figures are used to explain the solution in this chapter.
 
 \subsection{First Iteration and Attempt}
 %\subsubsection{Description}
-Unfortunately the C programming language does not provide the language features that Design by Contract needs. This first attempt focuses on the direct use of \texttt{assert()} to add input and output checks into the code. For example, there are two types of input and one type of output for one component. And the requirements for them are \texttt{input\_1 $>$ 0, input\_2 $<$ 0 and output $>$ 0}. Then we need to add \texttt{assert(input\_1 $>$ 0 \& input\_2 $<$0)} at the beginning of the code and \texttt{assert(output >  0)} at the end of the code. And also, if there are C-style structures or types in any places of the code, assertions are needed at these places as well. These assertions are used as the pre-conditions, post-conditions and invariants for this component.
+Unfortunately the C programming language does not provide the language features that DbC needs. This first attempt focuses on the direct use of \texttt{assert()} to add input and output checks into the code. For example, there are two types of input and one type of output for one component. And the requirements for them are \texttt{input\_1 $>$ 0, input\_2 $<$ 0 and output $>$ 0}. Then we need to add \texttt{assert(input\_1 $>$ 0 \& input\_2 $<$0)} at the beginning of the code and \texttt{assert(output >  0)} at the end of the code. And also, if there are C-style structures or types in any places of the code, assertions are needed at these places as well. These assertions are used as the pre-conditions, post-conditions, and invariants for this component.
 
 %\subsubsection{Problems \& Limitations}
 
@@ -28,7 +28,7 @@ Unfortunately the C programming language does not provide the language features 
 \item Duplicate code is needed when invariants for a common structure or type exist in many different places in the code. 
 \end{itemize}
 
-Summarizing, \texttt{assert()} in C programming language does not make Design by Contract reach desired effects to improve software components' robustness in AUTOSAR.
+Summarizing, \texttt{assert()} in C programming language does not make DbC reach desired effects to improve software components' robustness in AUTOSAR.
 
 %First of all, assertions lack robustness, intermixing application code with contracts and code redundancy. Then, the use of \texttt{assert()} requires to add extra code into the original component and this may also bring errors that might show up when running the preconditions, post-conditions and invariants checks. Moreover, assert statements tend to intermix with application code and this is not good for readability, understandability, and reusability of the code. Finally, duplicate code is needed when invariants for a common structure or type exist in many different places in the code. Summarizing, \texttt{assert()} in C programming language does not make Design by Contract reach desired effects to improve software components' robustness in AUTOSAR.
 
@@ -42,7 +42,7 @@ These functions are invoked when needed by the original component.
 \noindent {\bf Problems and Limitations:} 
 This solution suffers of some limitations: 
 \begin{itemize}
-\item There is a huge number of types of input, output and structures for one AUTOSAR software component. This will cause the creation of a large number of components and it will be hard to manage so many components;
+\item Typically, there is a huge number of types of input, output, and structures for one AUTOSAR software component. This will cause the creation of a large number of components and it will be hard to manage so many components;
 \item In most conditions the requirements for one type of input, output or structure are not complex. It is not worth the effort of building so many new components just for one original component;
 \item Other problems, such as redundancy of invoking these functions in the code of the original component and bad readability of the code, also exist.
 \end{itemize}
@@ -53,7 +53,7 @@ Summarizing, this second solution is not exactly the best solution to improve so
 
 
 \subsection{Third Iteration and Successful Attempt}
-In this final attempt, we tried to build a pre-condition component, a post-condition component and an invariant component for one original component. The pre-condition component contains a function to check all the types of input. The post-condition component contains a function to check all the types of output. And the invariant component has functions of checking all the structures or types in the original AUTOSAR software components. This method effectively limits the number of newly-built components and functions. It is also the method that we finally implemented and experimented. 
+In this final attempt, we tried to build a pre-condition component, a post-condition component and an invariant component for one original component. The pre-condition component contains a function to check all the types of input. The post-condition component contains a function to check all the types of output. Also, the invariant component has functions to check all the structures or types in the original AUTOSAR software components. This method effectively limits the number of newly-built components and functions. It is also the method that we finally implemented and experimented. 
 
 \begin{figure}[b]
 \centering
@@ -64,16 +64,16 @@ In this final attempt, we tried to build a pre-condition component, a post-condi
 
 
 \subsubsection{Reference Patterns}
-As mentioned in Section~\ref{sec:background}, the Design by Contract approach considers the two sides of the contract as the caller and the callee (or the client and the server). For this reason, the traditional client-server pattern in the software architecture design is a very good reference pattern. In the client-server pattern, the component types are clients and servers, and the principal connector type for it is a data connector driven by a request/reply protocol used for invoking services~\cite{ii8}. A client is defined as a component that invokes services from a server component. A server is a component that provides services to clients. One component can be both a client and a server. This pattern is wildly used as it ``factors out common services which are reusable"~\cite{ii8}. 
+As mentioned in Section~\ref{sec:background}, the DbC approach considers the two sides of the contract as the caller and the callee (or the client and the server). For this reason, the traditional client-server pattern in the software architecture design is a very good reference pattern. In the client-server pattern, the component types are clients and servers, and the principal connector type for it is a data connector driven by a request/reply protocol used for invoking services~\cite{ii8}. A client is defined as a component that invokes services from a server component. A server is a component that provides services to clients. One component can be both a client and a server. This pattern is widely used as it ``factors out common services which are reusable"~\cite{ii8}. 
 
 We got inspiration also from the Proxy patten for what concerns the 
 %Another pattern that I drew lessons from is the Proxy patten. It is not how the components in this pattern distribute, but the way it handles
 handling of the invoked service. %that is worthy of learning. 
-As shown in Figure~\ref{fig:proxyPattern}, when a client component invokes a service from a server component, the proxy component will make pre-processing for the input and post-processing for the output. The pre-processing and post-processing can serve many purposes including converting formats. The idea is to exploit the pattern for input and output checking and to combine it with the Design by Contract approach.  %That is why I think it can also serve as input and output checking. This approach can combine with the Design by Contract approach. 
+As shown in Figure~\ref{fig:proxyPattern}, when a client component invokes a service from a server component, the proxy component will make pre-processing for the input and post-processing for the output. The pre-processing and post-processing can serve many purposes including converting formats. The idea is to exploit the pattern for input and output checking and to combine it with the widely approach.  %That is why I think it can also serve as input and output checking. This approach can combine with the Design by Contract approach. 
 
 
 \subsubsection{Description of the Final Solution}
-When combining the Design by Contract approach with the two reference patterns, the most significant point is where to define the pre-conditions, post-conditions and invariants. Figure~\ref{fig:solution} shows the design for the new components enhanced with Design by Contract and how the components work together. The main processing component is almost the same as the original component. It is responsible for calculating or handling the input data and generating the output data. The newly-built pre-condition, post-condition and invariant components around it are responsible for data check. 
+When combining the DbC approach with the two reference patterns, the most significant point is where to define the pre-conditions, post-conditions, and invariants. Figure~\ref{fig:solution} shows the design for the new components enhanced with DbC and how the components work together. The main processing component is almost the same as the original component. It is responsible for calculating or handling the input data and generating the output data. The newly-built pre-condition, post-condition and invariant components around it are responsible for data check. 
 
 \begin{figure}[t]
 \centering
@@ -82,7 +82,7 @@ When combining the Design by Contract approach with the two reference patterns, 
 \label{fig:solution}
 \end{figure}
 
-In the {\em Pre-condition component}, there is a function that works for checking all the input data. If the input is invalid or erroneous, it can throw away or can be changed in %make it into 
+In the {\em Pre-condition component}, there is a function that works for checking all the input data. If the input is invalid or erroneous, it can be throw away or, if possible, it can be changed in %make it into 
 a default and valid value. How to deal with it depends on the specific requirements. The {\em Pre-condition component} will then give the checked input data to the main processing component for further calculation. In the {\em Invariant component} one or more functions are defined. Each function is used for checking one structure or type in the code of the main processing component. When there is a structure or type in the code, it will invoke the corresponding function to check this structure before using it. In the {\em Post-condition component} there is a function that works for checking all the output data. It will make sure that the output is in the reasonable range. 
 
 Considering how Proxy pattern handles input and output data, the newly-built pre-condition, post-condition and invariant components can be viewed as a proxy component. If one component needs the output data of another component as its input in an AUTOSAR software application, these two components can be seen as a client and a server. Figure~\ref{fig:dataExchange} shows how the input data are handled and exchanged between the components.
@@ -102,7 +102,7 @@ The PC used for the implementation and experimentation uses Windows 7 as the ope
 
 Arctic Studio is the original development tool for the existing AUTOSAR SW-Cs. %The whole AUTOSAR software package that was developed in the DEDICATE framework project~\cite{pp} is in this tool. 
 %\pat{More information on DEDICATE project} 
-It makes the architecture easy to understand and the components easy to recognize and read. Driven by the industrial co-authors, and by reading through the code of the components and the available documentation, we selected the Brake-Pedal-Input-Handler Component and the Brake-Light-Control Component from the applications in this package as the components to be considered for the experiment and then that we would modify in ARUnit. These two components are described in Section~\ref{sec:example}.
+It makes the architecture easy to understand and the components easy to recognize and read. Driven by the industrial co-authors, and by reading through the code of the components and the available documentation, we selected the Brake-Pedal-Input-Handler Component and the Brake-Light-Control Component from the applications in this package as the components to be considered for the experiment. These two components are described in Section~\ref{sec:example}.
 
 Arctic Studio and ARUnit are built for different purposes. ARUnit is more efficient for running and testing one single component or certain components. In order to modify and test the two selected components independently from the relevant components in the applications, the ECU, and the real running environment, we exported them from the whole package in Arctic Studio and imported them into ARUnit. The files that we imported into ARUint are the source files of the components and the software component description files of them. ARUnit is then used to generate the run-time environment for them. % according to these files when running them. 
 Finally, code files used for testing are built in ARUnit as well. 
@@ -121,7 +121,7 @@ we first introduce the software application that includes them, i.e. the Brake-B
 
 The Brake-By-Wire is an application that is used in several research projects within Volvo AB. %is a research framework %developed by the DEDICATE project~\cite{pp} 
 %that 
-It implements a brake-by-wire function distributed over five ECUs. It is not the real system that is used in the real trucks. It is proposed to give an example of distributed safety-critical system for validating research projects. The BBW application also includes an environment model of the vehicle in order to simulate the behaviour of the entire vehicle with regards to acceleration and braking~\cite{pp}. When using this application, the Brake Pedal ECU gets the signal of braking, does calculation and then sends a corresponding brake force request to each wheel.
+It implements a brake-by-wire function distributed over five ECUs. It is not the real system that is used in the real trucks. It is proposed to give an example of distributed safety-critical system for validating research projects. The BBW application also includes an environment model of the vehicle in order to simulate the behaviour of the entire vehicle for what concerns acceleration and braking~\cite{pp}. When using this application, the Brake Pedal ECU gets the signal of braking, does the calculation and then sends a corresponding brake force request to each wheel.
 
 \subsubsection{Brake-Pedal-Input-Handler component}
 The distribution of the Brake-Pedal-Input-Handler component in the Brake-By-Wire system is shown in Figure~\ref{fig:BPIH}. The function of this component is to convert the hardware pedal input into a pedal position (0-100\%). The input of this component is an integer with 12 bits and the output is a percentage from 0\% to 100\%. It provides input for the Brake-Torque-Calculation component and the Brake-Light-Control component.
@@ -160,16 +160,16 @@ Several issues were raised when reviewing the original component that may threat
 The component does not handle the input in all the possible ranges of values that are mentioned in the documentation. %DEDICATE framework description \cite{pp}. 
 In other words, the input check is too simple to deal with all the possible conditions. 
 
-Another issue is that there is no output check to ensure that the data gotten from the component is completely correct for the next component that uses the data. Although the calculation in this component is not complex, the errors can not be completely avoided at run time. That is why output check is necessary.
+Another issue is that there is no output check to ensure that the data gotten from the component is completely correct for the next component that uses the data. Although the calculation in this component is not complex, the errors cannot be completely avoided at runtime. That is why output check is necessary.
 
-Finally, the issue concerns the internal logic and the readability of the component code. In the original component, the simple and incomplete input checks are mixed with the code that is responsible for the calculation. It makes the code hard to read and understand for developers. This may also threaten the robustness when modifying the code. 
+Finally, other issues concern the internal logic and the readability of the component code. In the original component, the simple and incomplete input checks are mixed with the code that is responsible for the calculation. This makes the code hard to read and understand for developers. This may also threaten the robustness when modifying the code. 
 
 \subsubsection{Identification of Pre-conditions and Post-conditions}
 
 According to the documentation %DEDICATE framework description \cite{pp} 
 and the package of all the program code, the Brake-Pedal-Input-Handler component is used to convert the analogue input from the pedal into a pedal position which is from 0\% to 100\%. The pedal provides an analogue input with the range from 10\% to 90\% of supply voltage (5V direct current), which means the voltage is about from 0.5V to 4.5V. If the analogue input is 0-0.5V, it means that it is an open circuit or short to ground. If the analogue input is 4.5-5V, it means that the battery level is too low. %it is short to battery. 
 Both of them are errors. For the reason that the AD (Analog-to-Digital) converter of the micro-controller has not been calibrated, this inaccuracy has to be considered when building the software. % \cite{pp}. 
-The output from the AD converter is the input for the software component we considered. The input is a 12 bit value which uses 0 to represent 0V and uses 4095 to represent 5V. Of course, if considering that the input values of the test cases for this component can come also from the ARUnit, the input can possibly be less than 0 or greater than 4095. Thus, input values in these ranges are seen as invalid.
+The output from the AD converter is the input for the software component we considered. The input is a 12 bit value, which uses 0 to represent 0V and uses 4095 to represent 5V. Of course, if considering that the input values of the test cases for this component can come also from the ARUnit, the input can possibly be less than 0 or greater than 4095. Thus, input values in these ranges are seen as invalid.
 
 \begin{table}[htb]
 \centering
@@ -192,12 +192,12 @@ Table~\ref{tab:BPIHRanegInput} shows all the possible inputs of the Brake-Pedal-
 
 When setting pre-condition part of the contracts, the information from requirements specification should be carefully considered to cover all the possible inputs. In this specific example the precondition considers as a valid input only an input value in the range 401 - 3700. 
 %Here, pre-condition is that only the input value between 401 and 3700 is seen as valid and faultless. 
-When the input value is less than 0 or greater than 4095, it is an invalid input. Input value in this range just appears in the testing environment in ARUnit\footnote{These values should not really come in real environments}. When input value is in the range of  0-400 and 3701-4095, it is erroneous. Input values in this range represents 0-0.5V or 4.5-5V. They can be generated by the errors of hardware in the vehicles. For the post-condition, it should meet two requirements. Firstly, the output of the software component should be an integer from 0 to 100 to represent values from 0\% to 100\%. Then, the correctness check for the calculation within the component is needed. There are not structures or types used in this component. Hence, we do not need to set invariant check for it.
+When the input value is less than 0 or greater than 4095, it is an invalid input. Input value in this range just appears in the testing environment in ARUnit\footnote{These values should not really come in real environments}. When the input value is in the range of  0-400 and 3701-4095, it is erroneous. Input values in this range represents 0-0.5V or 4.5-5V. They can be generated by the errors of hardware in the vehicles. For the post-condition, it should meet two requirements. Firstly, the output of the software component should be an integer from 0 to 100 to represent values from 0\% to 100\%. Then, the correctness check for the calculation within the component is needed. There are not structures or types used in this component. Hence, we do not need to set invariant checks for them.
 
 
 \subsubsection{Design and Modification}
 
-The aim of the modified software component is to solve the issues that exist in the original component with the Design by Contract approach. As mentioned in Section~\ref{sec:background}, the separation of the contracts and the component itself is a good idea. The architecture design of the new component is shown in Figure~\ref{fig:BrakePedalComponent}. 
+The aim of the modified software component is to solve the issues that exist in the original component with the Design by Contract approach. As mentioned in Section~\ref{sec:background}, the separation of the contracts and the component itself is a good practice. The architecture design of the new component is shown in Figure~\ref{fig:BrakePedalComponent}. 
 
 \begin{figure}[htb]
 \centering
@@ -207,13 +207,13 @@ The aim of the modified software component is to solve the issues that exist in 
 \end{figure}
 
 In the pre-condition component, there is a function that gets the pedal signal as input and verifies it for the main processing component. Only the valid and faultless data, which are greater than 401 and less than 3700, can enter into the main processing component. The invalid and erroneous data are detected and handled. 
-In order to see the testing results intuitively, in our design it directly shows in the console of ARUnit that it is invalid or erroneous. For example, if the input is -100, the console shows it is an invalid input.  But when running in the real ECU, other approaches should be used to handle an invalid or erroneous input because of lack of a screen. The possible approaches may be the correction of the data or getting the next input data after some time. The main processing component works for calculation of the data and giving the results to the post-condition component for checks. The code for data processing in the main processing component is from the original component. In the post-condition component, a function used for checking the calculation results of the main processing component is defined. It checks if the calculation is correct and the output is in the range of 0\%-100\%. 
+In order to see the testing results intuitively, in our design it directly shows in the console of ARUnit that it is invalid or erroneous. For example, if the input is -100, the console shows it is an invalid input.  But when running in the real ECU, other approaches should be used to handle an invalid or erroneous input because of lack of a screen. The possible approaches may be the correction of the data or getting the next input data after some time. The main processing component works for calculation of the data and giving the results to the post-condition component for checks. The code for data processing in the main processing component is the same of the original component. In the post-condition component, a function used for checking the calculation results of the main processing component is defined. It checks if the calculation is correct and the output is in the range of 0\%-100\%. 
 
 \subsubsection{Test}
-In order to get to know if the modified component improves the robustness of the component, a testing program is created for the original component and the modified component in ARUnit. When running the testing program, the input data are sent into the component and the output data are shown on the console in ARUnit through the testing program. For better readability of the output data, some additional comments are attached with the output data to show the status of this running. Of course, this is used just in the testing environment to help developing the component and collecting information. In the real ECU, there are not such additional comments at run time. 
+In order to get to know if the modified component improves the robustness of the component, a testing program is created for the original component and the modified component in ARUnit. When running the testing program, the input data are sent into the component and the output data are shown on the console in ARUnit through the testing program. For better readability of the output data, some additional comments are attached with the output data to show the status of the calculation. Of course, this is used just in the testing environment to help developing the component and collecting information. In the real ECU, there are not such additional comments at runtime. 
 
 In Table~\ref{tab:BPIHExpectedOutput}, some examples of input data in all possible ranges of the Brake-Pedal-Input-Handler Component are shown. According to the documentation, %DEDICATE framework description~\cite{pp}, 
-the expected outputs of the software component are also included to help readers better understand the testing. 
+the expected outputs of the software component are also included to help readers better understanding the testing. 
 
 \begin{table}[htb]
 \centering
@@ -233,9 +233,9 @@ value $>$ 4095 & 6000 & invalid input\\ \hline
 \end{table}
 
 
-In the testing period, 70 different input data are tested for both the original component and the modified component. If the output received from the component is the same as the expected output, it means that it is a successful running. Referring to the Table~\ref{tab:BPIHExpectedOutput}, the tests that get valid output data such as 0, 53 and 100 are considered as successful tests that can be used by other components. Moreover, also 
+In the testing period, 70 different input data are tested for both the original component and the modified component. If the output received from the component matches the expected output, we are in the case of a successful running. Referring to the Table~\ref{tab:BPIHExpectedOutput}, the tests that get valid output data such as 0, 53 and 100 are considered as successful tests that can be used by other components. Moreover, also 
 %which can be used by other components are seen as successful tests, 
-the tests that successfully detect invalid input or erroneous input are seen as successful tests. The results of the testing are described in Section~\ref{sec:evaluation}. The robustness of the tested software component can be measured in terms of number or percentage of  %seen through how many of the
+the tests that successfully detect invalid or erroneous inputs are seen as successful tests. The results of the testing are described in Section~\ref{sec:evaluation}. The robustness of the tested software component can be measured in terms of number or percentage of  %seen through how many of the
  test cases that are successful.
 
 \subsection{Process of Modifying the Brake-Light-Control Component}
@@ -244,9 +244,9 @@ In this section, we describe the process of modifying the Brake-Light-Control co
 
 \subsubsection{Analysis and Identification of Pre-conditions and Post-conditions }
 
-The existing issues for the Brake-Light-Control component is similar to the Brake-Pedal-Input-Handler component. It does not have complete input checks for the input data to cover all the possible input data. Some simple input data checks are mixed with the program code. Also, it lacks output checks. The modification for the original component is expected to solve these issues.
+The existing issues for the Brake-Light-Control component are similar to the Brake-Pedal-Input-Handler component. It does not have complete input checks for the input data to cover all the possible input data. Some simple input data checks are mixed with the program code. Also, it lacks output checks. The modification for the original component is expected to solve these issues.
 
-The Brake-Pedal-Input-Handler component is used to control the brake lights by the rules described in Section~\ref{sec:example}. Its input should be the pedal position and the vehicle speed. The pedal position is an output of the Brake-Pedal-Input-Handler component. The pedal position should be between 0\%-100\%. The range of the vehicle speed depends on different situations. Here, we set the highest vehicle speed as 300 km/h, which is obviously out of the range. Another factor that affects the output of the component is the status of emergency braking. The status of emergency braking can be active or inactive. In order to concentrate on the collaboration of the two modified components, the status of emergency braking is directly sent into the Brake-Light-Control component as another input without being included in the pre-condition. Thus, the pre-condition for this component is that the pedal position should be 0\%-100\% and the vehicle speed should be 0 km/h-300 km/h. For the post-condition, it should check if the calculation in the component is correct.
+The Brake-Pedal-Input-Handler component is used to control the brake lights by the rules described in Section~\ref{sec:example}. Its input should be the pedal position and the vehicle speed. The pedal position is an output of the Brake-Pedal-Input-Handler component. The pedal position should be in the range 0\%-100\%. The range of the vehicle speed depends on different situations. Here, we set the highest vehicle speed as 300 km/h, which is obviously out of the range. Another factor that affects the output of the component is the status of emergency braking. The status of emergency braking can be active or inactive. In order to concentrate on the collaboration of the two modified components, the status of emergency braking is directly sent into the Brake-Light-Control component as another input without being included in the pre-condition. Thus, the pre-condition for this component is that the pedal position should be in the range 0\%-100\% and the vehicle speed should be in the range 0 km/h-300 km/h. For the post-condition, it should check if the calculation in the component is correct.
 
 \subsubsection{Design and Modification}
  The design of the new Brake-Light-Control component is similar to the new Brake-Pedal-Input-Handler component. The pre-condition and post-condition are separated from the main processing component as the pre-condition component and the post-condition component. Figure~\ref{sec:testingEnvironment} shows how these components work together.
@@ -259,14 +259,14 @@ The Brake-Pedal-Input-Handler component is used to control the brake lights by t
 \end{figure}
 
 
-There is a function in the pre-condition component of the Brake-Light-Control component. It gets the input data from the Brake-Pedal-Input-Handler component and other sources, and then verifies the data for the main processing component. Only the input data with pedal position from 0\% to 100\% and vehicle speed from 0 km/h-300 km/h are valid. The code for data processing in the main processing component is from the original component. In the post-condition component, a function used for checking the calculation results of the main processing component is defined. It checks if the status of braking light is correct.
+A function in the pre-condition component of the Brake-Light-Control component gets as input data from the Brake-Pedal-Input-Handler component and other sources, and then verifies the data for the main processing component. Only the input data with pedal position from 0\% to 100\% and vehicle speed from 0 km/h to 300 km/h are valid. The code for data processing in the main processing component is the same of the original component. In the post-condition component, a function used for checking the calculation results of the main processing component is defined. It checks if the status of braking light is correct.
 
 
 
 \subsubsection{Test}
-In order to know if the two modified components can collaborate with each other and improve the robustness, a testing program is created for the original components and the modified components in ARUnit. When running the testing program, the input data are sent into both the two components. Data similar to those in Table~\ref{tab:BPIHRanegInput} are passed to the Brake-Pedal-Input-Handler component. Its output data are used as the input data for the Brake-Light-Control component with the vehicle speed and the emergency braking status. The output is the status of the brake lights. It can be ON/OFF/BLINK. Some comments are attached to the output to know which input is detected as invalid or erroneous. 
+In order to know if the two modified components can collaborate with each other and improve the robustness, a testing program is created for the original components and for the modified components in ARUnit. When running the testing program, the input data are sent into both the two components. Data similar to those in Table~\ref{tab:BPIHRanegInput} are passed to the Brake-Pedal-Input-Handler component. Its output data are used as the input data for the Brake-Light-Control component with the vehicle speed and the emergency braking status. The output is the status of the brake lights. It can be ON/OFF/BLINK. Some comments are attached to the output to know which input is detected as invalid or erroneous. 
 
-In Table~\ref{tab:inputData}, some examples of input data are shown. According to the documentation, the expected outputs of the software component are also included to help readers better understand the testing. 
+In Table~\ref{tab:inputData}, some examples of input data are shown. According to the documentation, the expected outputs of the software component are also included to help readers better understanding the testing. 
 
 \begin{table}[htb]\footnotesize
 \centering
